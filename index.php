@@ -43,7 +43,7 @@ $products = [
 $totalValue = 0;
 function whatProducts() {
     global $products;
-    echo "You ordered: <br>";
+
     foreach($_POST["products"] as $x => $val) {
         if ($val === "1") {
             echo "- " . $products[$x]['name'] . "<br>" ;
@@ -60,21 +60,26 @@ function validate()
 function handleForm()
 {
     // TODO: form related tasks (step 1)
-     echo "order received <br>" . whatProducts();
+     echo "You ordered :<br>";
+     echo  whatProducts();
+     echo "It will be delivered too : <br>";
+     echo $_POST['street'] . " " . $_POST['streetnumber'] . " in " . $_POST['zipcode'] . " " . $_POST['city'];
 
 
     // Validation (step 2)
     $invalidFields = validate();
     if (!empty($invalidFields)) {
         // TODO: handle errors
+        echo "error";
     } else {
         // TODO: handle successful submission
+
     }
 }
 
 // TODO: replace this if by an actual check
 
-if (!empty()) {
+if (!empty($_POST['products'])) {
     handleForm();
 }
 
