@@ -52,10 +52,12 @@ function whatProducts() {
     return $productsx;
 }
 
-
+$orderFailed = false;
 
 function validate()
 {
+    global $orderFailed;
+    $orderFailed = true;
     $errorResponse = [];
     // This function will send a list of invalid fields back
     $email = filter_var($_POST["email"], FILTER_SANITIZE_EMAIL);
@@ -90,8 +92,6 @@ function validate()
 function handleForm()
 {
     // TODO: form related tasks (step 1)
-    
-
 
     // Validation (step 2)
     $invalidFields = validate();
@@ -105,14 +105,20 @@ function handleForm()
         echo '<div class="alert alert-danger" role="alert">' . $errorMessage . '</div>' ;
     } else {
         //TODO: handle successful submission
-        
+        $GLOBALS['orderFailed'] = false;
         $succesResponse = "You ordered :<br>" . whatProducts() . "It will be delivered too : <br>" . $_POST['street'] . " " . $_POST['streetnumber'] . " in " . $_POST['zipcode'] . " " . $_POST['city'];
         echo '<div class="alert alert-primary" role="alert">' . $succesResponse . '</div>';
     }
 }
 
-// TODO: replace this if by an actual check
-
+function receiveSessionInfo($key) {
+    global $orderFailed;
+    if (!empty($_SESSION)) {
+        if (isset($_SESSION[$key]) && ($orderFailed == true)) {
+            echo $_SESSION[$key];
+        }
+    }
+}
 
 
 
