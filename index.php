@@ -43,13 +43,13 @@ $products = [
 $totalValue = 0;
 function whatProducts() {
     global $products;
-    $productsx = "";
+    $productsSelected = "";
     foreach($_POST["products"] as $x => $val) {
         if ($val === "1") {
-            $productsx .= "- " . $products[$x]['name'] . "<br>" ;
+            $productsSelected .= "- " . $products[$x]['name'] . "<br>" ;
         }
     }
-    return $productsx;
+    return $productsSelected;
 }
 
 $orderFailed = false;
@@ -106,6 +106,7 @@ function handleForm()
     } else {
         //TODO: handle successful submission
         $GLOBALS['orderFailed'] = false;
+        setcookie("email", $_POST['email'], time() + 3600);
         $succesResponse = "You ordered :<br>" . whatProducts() . "It will be delivered too : <br>" . $_POST['street'] . " " . $_POST['streetnumber'] . " in " . $_POST['zipcode'] . " " . $_POST['city'];
         echo '<div class="alert alert-primary" role="alert">' . $succesResponse . '</div>';
     }
